@@ -1,10 +1,12 @@
 <template>
   <div class="simple-swiper" :style="slideStyle">
-    <img src="./../assets/left-arrow.svg">
+    <img :src="leftIcon">
     <div>
-      <slot></slot>
+      <div class="swiper-content" :style="swiperContent">
+        <slot></slot>
+      </div>
     </div>
-    <img src="./../assets/right-arrow.svg">
+    <img :src="rightIcon">
   </div>
 </template>
 
@@ -17,12 +19,25 @@ export default {
         width: `${this.width}px`,
         height: `${this.height}px`
       }
+    },
+    swiperContent () {
+      return {
+        gridTemplateColumns: `repeat(${ this.imagePerview }, 1fr)`
+      }
+    },
+    arrowStyle () {
+      if (this.arrowSize) {
+        return {
+          width: `${this.arrowSize}px`
+        }
+      } else {
+      }
     }
   },
   props: {
-    count: {
+    imagePerview: {
       type: Number,
-      default: 0
+      default: 3
     },
     width: {
       type: Number,
@@ -31,6 +46,18 @@ export default {
     height: {
       type: Number,
       default: 80
+    },
+    rightIcon: {
+      type: String,
+      default: require('@/assets/right-arrow.svg')
+    },
+    leftIcon: {
+      type: String,
+      default: require('@/assets/left-arrow.svg')
+    },
+    arrowSize: {
+      type: Number,
+      default: null
     }
   }
 }
@@ -39,4 +66,8 @@ export default {
 .simple-swiper
   display: grid
   grid-template-column: auto 1fr auto
+  .swiper-content
+    display: grid
+    overflow: hidden
+    grid-auto-flow: column
 </style>
